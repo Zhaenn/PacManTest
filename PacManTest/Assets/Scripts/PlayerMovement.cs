@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private Vector2 playerDirection = new Vector2(1f, 0f);
+    public Vector3 startPosition;
     public int speed;
     private Rigidbody2D rigidBody;
     public LayerMask walls;
@@ -13,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
+        startPosition = transform.position;
     }
    
     // Update is called once per frame

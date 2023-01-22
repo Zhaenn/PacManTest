@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [SerializeField]
-public class Dot : MonoBehaviour
-{
-    public int points;
- 
-    public void OnTriggerEnter2D(Collider2D other)
+public class Dot : Interactible
+{   
+    public override void OnTriggerEnter2D(Collider2D other)
     {       
       if (other.gameObject.layer == LayerMask.NameToLayer("Pacman"))
       {
