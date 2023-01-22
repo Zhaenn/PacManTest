@@ -16,22 +16,32 @@ public class PlayerMovement : MonoBehaviour
     }
    
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         
         if(Input.GetAxis("Horizontal") > 0f)
         {
             //Going Right
-            playerDirection = new Vector2(1f, 0f);            
+            Vector2 direction = new Vector2(1f, 0f);
+
+            if (!IsThereAWall(direction))
+            {
+                playerDirection = direction;
+                Quaternion rotation = Quaternion.Euler(0f, 0f, 0f);
+                transform.rotation = rotation;
+            }
         }        
 
         if (Input.GetAxis("Horizontal") < 0f)
         {
-            Vector2 direction = new Vector2(-1f, 0f);
             //Going Left
+            Vector2 direction = new Vector2(-1f, 0f);
+            
             if (!IsThereAWall(direction))
             {
                 playerDirection = direction;
+                Quaternion rotation = Quaternion.Euler(0f, 0f, 180f);
+                transform.rotation = rotation;
             }
             
         }
@@ -39,16 +49,30 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetAxis("Vertical") > 0f)
         {
             //Going Up
-            playerDirection = new Vector2(0f, 1f);
+            Vector2 direction = new Vector2(0f, 1f);
+
+            if (!IsThereAWall(direction))
+            {
+                playerDirection = direction;
+                Quaternion rotation = Quaternion.Euler(0f, 0f, 90f);
+                transform.rotation = rotation;
+            }
         }
 
         if (Input.GetAxis("Vertical") < 0f)
         {
             //Going Down
-            playerDirection = new Vector2(0f, -1f);
+            Vector2 direction = new Vector2(0f, -1f);
+
+            if (!IsThereAWall(direction))
+            {
+                playerDirection = direction;
+                Quaternion rotation = Quaternion.Euler(0f, 0f, -90f);
+                transform.rotation = rotation;
+            }
         }
 
-        Vector2 movement = playerDirection * speed * Time.deltaTime;
+        Vector2 movement = playerDirection * speed * Time.fixedDeltaTime;
         Move(movement);
 
     }
@@ -57,10 +81,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Debug.Log(direction);
        
-
-
-        
-        if (Physics2D.Raycast(transform.position, direction, 1.5f, walls))
+        if (Physics2D.BoxCast(transform.position, new Vector2(0.75f, 0.75f), 0f, direction, 1.5f, walls))
         {
             Debug.DrawRay(transform.position, direction * 1.5f, Color.green);
             return true;
@@ -78,9 +99,4 @@ public class PlayerMovement : MonoBehaviour
     {
         rigidBody.MovePosition(rigidBody.position + movement);
     }
-
-  /*  public IntersectionPoint FindNextIntersectionPoint()
-    {
-
-    }*/
 }
