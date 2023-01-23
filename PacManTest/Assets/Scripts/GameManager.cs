@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     private Dot[] allDots;
     private int currentPoints;
     private int currentHighScore;
+    public int pointMultiplier = 1;
     public List<Dot> allDotsInLevel = new List<Dot>();
     private int dotNumber;
     public List<Fruits> allFruits = new List<Fruits>();
@@ -241,6 +242,15 @@ public class GameManager : MonoBehaviour
 
     public void ReturnGhostToNormal()
     {
-
+        foreach(Ghost g in allGhosts)
+        {
+            if(g.currentGhostBehavior != Ghost.behavior.respawn)
+            {
+                g.GetComponent<SpriteRenderer>().sprite = g.ghostSprite;
+                g.currentGhostBehavior = g.mainBehavior;
+                g.vulnerable = false;
+            }           
+        }
+        pointMultiplier = 1;
     }
 }

@@ -27,12 +27,7 @@ public class IntersectionPoint : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Ghost"))
         {
             other.GetComponent<Ghost>().HitIntersection(this);
-        }
-        else
-        {
-           
-        }
-
+        }      
     }
 
 

@@ -12,13 +12,7 @@ public class Dot : Interactible
             GameManager.instance.AddPoints(points);
             GameManager.instance.DotEaten(this);
             this.gameObject.SetActive(false);
-      }
-      else
-      {
-            Debug.Log("not pacman");
-      }
-     
-            
+      } 
     }
     
 }

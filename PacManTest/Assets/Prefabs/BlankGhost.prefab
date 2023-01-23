@@ -103,8 +103,12 @@ MonoBehaviour:
   previousDirection: {x: 0, y: 0}
   ghostSprite: {fileID: 0}
   vulnerableSprite: {fileID: 21300000, guid: bc8b696b1c23af14e8a831aa09db24ca, type: 3}
+  eyesSprite: {fileID: 21300000, guid: 18d7fb085bed98745b1f57d4ea355c88, type: 3}
+  vulnerable: 0
+  points: 200
   timeUntilRelease: 0
   released: 0
+  baseSpeed: 0
   speed: 0
   currentGhostBehavior: 0
   mainBehavior: 0

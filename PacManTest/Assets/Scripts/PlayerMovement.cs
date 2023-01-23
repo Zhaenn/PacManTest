@@ -84,8 +84,6 @@ public class PlayerMovement : MonoBehaviour
 
     public bool IsThereAWall(Vector2 direction)
     {
-        Debug.Log(direction);
-       
         if (Physics2D.BoxCast(transform.position, new Vector2(0.75f, 0.75f), 0f, direction, 1.5f, walls))
         {
             Debug.DrawRay(transform.position, direction * 1.5f, Color.green);
@@ -104,4 +102,22 @@ public class PlayerMovement : MonoBehaviour
     {
         rigidBody.MovePosition(rigidBody.position + movement);
     }
+
+    public void OnCollisionEnter2D(Collision2D other)
+    {
+        if(other.gameObject.layer == LayerMask.NameToLayer("Ghost"))
+        {
+            if (other.gameObject.GetComponent<Ghost>().vulnerable)
+            {
+                other.gameObject.GetComponent<Collider2D>().enabled = false;
+                
+                other.gameObject.GetComponent<Ghost>().Invoke("GhostDeath", 0.1f);
+            }
+            else if (other.gameObject.GetComponent<Ghost>().currentGhostBehavior != Ghost.behavior.respawn)
+            {
+                GameManager.instance.PacmanDeath();
+            }
+        }
+    }
+
 }
