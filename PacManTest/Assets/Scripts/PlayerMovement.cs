@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private Vector2 playerDirection = new Vector2(1f, 0f);
+    public Vector2 playerDirection = Vector2.right;
     public Vector3 startPosition;
     public int speed;
     private Rigidbody2D rigidBody;
@@ -20,62 +20,65 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        
-        if(Input.GetAxis("Horizontal") > 0f)
+        if (GameManager.instance.levelStarted)
         {
-            //Going Right
-            Vector2 direction = new Vector2(1f, 0f);
-
-            if (!IsThereAWall(direction))
+            if (Input.GetAxis("Horizontal") > 0f)
             {
-                playerDirection = direction;
-                Quaternion rotation = Quaternion.Euler(0f, 0f, 0f);
-                transform.rotation = rotation;
-            }
-        }        
+                //Going Right
+                Vector2 direction = Vector2.right;
 
-        if (Input.GetAxis("Horizontal") < 0f)
-        {
-            //Going Left
-            Vector2 direction = new Vector2(-1f, 0f);
-            
-            if (!IsThereAWall(direction))
-            {
-                playerDirection = direction;
-                Quaternion rotation = Quaternion.Euler(0f, 0f, 180f);
-                transform.rotation = rotation;
+                if (!IsThereAWall(direction))
+                {
+                    playerDirection = direction;
+                    Quaternion rotation = Quaternion.Euler(0f, 0f, 0f);
+                    transform.rotation = rotation;
+                }
             }
-            
+
+            if (Input.GetAxis("Horizontal") < 0f)
+            {
+                //Going Left
+                Vector2 direction = Vector2.left;
+
+                if (!IsThereAWall(direction))
+                {
+                    playerDirection = direction;
+                    Quaternion rotation = Quaternion.Euler(0f, 0f, 180f);
+                    transform.rotation = rotation;
+                }
+
+            }
+
+            if (Input.GetAxis("Vertical") > 0f)
+            {
+                //Going Up
+                Vector2 direction = Vector2.up;
+
+                if (!IsThereAWall(direction))
+                {
+                    playerDirection = direction;
+                    Quaternion rotation = Quaternion.Euler(0f, 0f, 90f);
+                    transform.rotation = rotation;
+                }
+            }
+
+            if (Input.GetAxis("Vertical") < 0f)
+            {
+                //Going Down
+                Vector2 direction = Vector2.down;
+
+                if (!IsThereAWall(direction))
+                {
+                    playerDirection = direction;
+                    Quaternion rotation = Quaternion.Euler(0f, 0f, -90f);
+                    transform.rotation = rotation;
+                }
+            }
+
+            Vector2 movement = playerDirection * speed * Time.fixedDeltaTime;
+            Move(movement);
+
         }
-
-        if (Input.GetAxis("Vertical") > 0f)
-        {
-            //Going Up
-            Vector2 direction = new Vector2(0f, 1f);
-
-            if (!IsThereAWall(direction))
-            {
-                playerDirection = direction;
-                Quaternion rotation = Quaternion.Euler(0f, 0f, 90f);
-                transform.rotation = rotation;
-            }
-        }
-
-        if (Input.GetAxis("Vertical") < 0f)
-        {
-            //Going Down
-            Vector2 direction = new Vector2(0f, -1f);
-
-            if (!IsThereAWall(direction))
-            {
-                playerDirection = direction;
-                Quaternion rotation = Quaternion.Euler(0f, 0f, -90f);
-                transform.rotation = rotation;
-            }
-        }
-
-        Vector2 movement = playerDirection * speed * Time.fixedDeltaTime;
-        Move(movement);
 
     }
 

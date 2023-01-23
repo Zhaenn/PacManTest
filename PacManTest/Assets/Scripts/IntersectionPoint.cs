@@ -4,15 +4,43 @@ using UnityEngine;
 
 public class IntersectionPoint : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public List<Vector2> possibleDirections = new List<Vector2>();
+    public LayerMask walls;
+
+    private void Start()
     {
-        
+        //Right    
+        CheckDirection(Vector2.right);
+
+        //Left
+        CheckDirection(Vector2.left);
+
+        //Up
+        CheckDirection(Vector2.up);
+
+        //Down
+        CheckDirection(Vector2.down);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnTriggerEnter2D(Collider2D other)
     {
-        
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ghost"))
+        {
+            other.GetComponent<Ghost>().HitIntersection(this);
+        }
+        else
+        {
+           
+        }
+
+    }
+
+
+    private void CheckDirection(Vector2 directionToCheck)
+    {
+        if (!Physics2D.BoxCast(transform.position, new Vector2(0.75f, 0.75f), 0f, directionToCheck, 1.5f, walls))
+        {
+            possibleDirections.Add(directionToCheck);
+        };
     }
 }

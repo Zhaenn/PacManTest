@@ -8,11 +8,12 @@ public class GameManager : MonoBehaviour
     [Header("Game Data")]
     private int currentLives = 5;
     private int currentLevel = 1;
-    private PlayerMovement pacman;
+    public PlayerMovement pacman;
+    public bool levelStarted = false;
+    public List<Ghost> allGhosts = new List<Ghost>();
 
     [Header ("References")]
     public static GameManager instance;
-    public GameObject Pacman;
     public GameObject currentScoreValueText;
     public GameObject highScoreValueText;
     public GameObject livesPrefab;
@@ -27,6 +28,7 @@ public class GameManager : MonoBehaviour
     public List<Fruits> allFruits = new List<Fruits>();
     public GameObject fruit;
     private bool fruitSpawned = false;
+    private bool bonusLifeAwarded = false;
 
     [Header("Sprite References")]
     public Sprite cherrySprite;
@@ -58,6 +60,12 @@ public class GameManager : MonoBehaviour
             allDotsInLevel.Add(d);
         }
 
+        Ghost[] theGhosts = FindObjectsOfType<Ghost>();
+        foreach(Ghost g in theGhosts)
+        {
+            allGhosts.Add(g);
+        }
+
         Dictionary<int, Fruits> fruitsDic = new Dictionary<int, Fruits>()
         {
              {0, new Fruits(100, "Cherry", cherrySprite)},
@@ -76,8 +84,15 @@ public class GameManager : MonoBehaviour
         }
 
         UpdateUI();
+
+        Invoke("StartLevel", 3f);
     }
 
+
+    public void StartLevel()
+    {
+        levelStarted = true;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -94,6 +109,12 @@ public class GameManager : MonoBehaviour
     public void AddPoints(int pointsToAdd)
     {
         currentPoints += pointsToAdd;
+        if(currentPoints >= 10000 && !bonusLifeAwarded)
+        {
+            SpawnLife();
+            currentLives++;
+            bonusLifeAwarded = true;
+        }
         currentScoreValueText.GetComponent<TMPro.TextMeshProUGUI>().text = currentPoints.ToString();
         
         if(currentPoints > currentHighScore)
@@ -110,8 +131,9 @@ public class GameManager : MonoBehaviour
 
         if(allDotsInLevel.Count <= 0)
         {
-            Debug.Log("Finished Level");
-        } else if(allDotsInLevel.Count < dotNumber / 2 && !fruitSpawned)
+            FinishedLevel();
+        }
+        else if(allDotsInLevel.Count < dotNumber / 2 && !fruitSpawned)
         {
             SpawnFruit();
             fruitSpawned = true;
@@ -145,14 +167,20 @@ public class GameManager : MonoBehaviour
         //Spawn lives according to how many we have at the start
         for(int i = 0; i < currentLives; i++)
         {
-            Instantiate(livesPrefab, livesContainer.transform.position, livesContainer.transform.rotation, livesContainer.transform);
+            SpawnLife();
         }
 
+    }
+
+    public void SpawnLife()
+    {
+        Instantiate(livesPrefab, livesContainer.transform.position, livesContainer.transform.rotation, livesContainer.transform);             
     }
 
     public void PacmanDeath()
     {
         currentLives--;
+        Destroy(livesContainer.transform.GetChild(livesContainer.transform.childCount - 1).gameObject);        
 
         if(currentLives > 0)
         {
@@ -166,19 +194,53 @@ public class GameManager : MonoBehaviour
         
     }
 
+    public void FinishedLevel()
+    {
+        levelStarted = false;
+        currentLevel++;        
+        pacman.transform.position = pacman.startPosition;
+        pacman.playerDirection = new Vector2(0f, 0f);
+      
+        Debug.Log(allDots.Length);
+        Destroy(transform.Find("FruitSpawnPoint").GetChild(0).gameObject);
+        fruitSpawned = false;
+
+
+        //--------------------------------------------- Last dot doesn't reset properly, wait time solves the problem
+        Invoke("ResetDots", 2f);
+
+        Invoke("StartLevel", 3f);
+    }
+
+    public void ResetDots()
+    {
+        foreach (Dot d in allDots)
+        {
+            d.gameObject.SetActive(true);
+            Debug.Log("dot reset");
+            allDotsInLevel.Add(d);
+        }
+    }
     public void ResetGame()
     {
         //Reset player position and all ghosts
         pacman.transform.position = pacman.startPosition;
-       
+        
     }
 
     public void GameOver()
     {
+        ResetGame();
         currentPoints = 0;
         foreach (Dot d in allDots)
         {
             d.gameObject.SetActive(true);
         }
+    }
+
+
+    public void ReturnGhostToNormal()
+    {
+
     }
 }
