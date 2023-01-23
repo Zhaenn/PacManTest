@@ -6066,7 +6066,7 @@ GameObject:
   - component: {fileID: 1544506580}
   m_Layer: 0
   m_Name: GhostActivater
-  m_TagString: Untagged
+  m_TagString: Spawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10104,17 +10104,29 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 332406998469886168, guid: 4f1f519406af29a4989c4f91ae6c0127, type: 3}
+      propertyPath: speed
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 332406998469886168, guid: 4f1f519406af29a4989c4f91ae6c0127, type: 3}
       propertyPath: released
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 332406998469886168, guid: 4f1f519406af29a4989c4f91ae6c0127, type: 3}
       propertyPath: baseSpeed
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 332406998469886168, guid: 4f1f519406af29a4989c4f91ae6c0127, type: 3}
       propertyPath: ghostSprite
       value: 
       objectReference: {fileID: 21300000, guid: d8b82e1b57e58554689442ab39bb8990, type: 3}
+    - target: {fileID: 332406998469886168, guid: 4f1f519406af29a4989c4f91ae6c0127, type: 3}
+      propertyPath: ghostDirection.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 332406998469886168, guid: 4f1f519406af29a4989c4f91ae6c0127, type: 3}
+      propertyPath: previousDirection.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 332406998469886168, guid: 4f1f519406af29a4989c4f91ae6c0127, type: 3}
       propertyPath: currentGhostBehavior
       value: 0
@@ -10229,8 +10241,12 @@ PrefabInstance:
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8368440962108109560, guid: 565d1f14598c84441b22cc4ded797e12, type: 3}
+      propertyPath: speed
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8368440962108109560, guid: 565d1f14598c84441b22cc4ded797e12, type: 3}
       propertyPath: baseSpeed
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8368440962108109560, guid: 565d1f14598c84441b22cc4ded797e12, type: 3}
       propertyPath: ghostSprite
@@ -10270,8 +10286,12 @@ PrefabInstance:
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 2759093445738355684, guid: a030029af6c8f794fb8b26dfd37863e8, type: 3}
+      propertyPath: speed
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2759093445738355684, guid: a030029af6c8f794fb8b26dfd37863e8, type: 3}
       propertyPath: baseSpeed
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2759093445738355684, guid: a030029af6c8f794fb8b26dfd37863e8, type: 3}
       propertyPath: m_Enabled
@@ -10394,6 +10414,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2052767359880490792, guid: a2a4e7eeb8d1ff74aa294df0ce37e998, type: 3}
+      propertyPath: speed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2487080407843110211, guid: a2a4e7eeb8d1ff74aa294df0ce37e998, type: 3}
       propertyPath: m_Name
       value: Pacman
@@ -10420,8 +10444,12 @@ PrefabInstance:
       value: Inky
       objectReference: {fileID: 0}
     - target: {fileID: 4596369182975273289, guid: 2d212598b10a88a4a9d434b4e3bfc4f6, type: 3}
+      propertyPath: speed
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4596369182975273289, guid: 2d212598b10a88a4a9d434b4e3bfc4f6, type: 3}
       propertyPath: baseSpeed
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4596369182975273289, guid: 2d212598b10a88a4a9d434b4e3bfc4f6, type: 3}
       propertyPath: m_Enabled

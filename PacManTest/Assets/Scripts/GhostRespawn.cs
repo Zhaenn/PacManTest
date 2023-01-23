@@ -13,16 +13,15 @@ public class GhostRespawn : MonoBehaviour
             {
                 other.GetComponent<Ghost>().speed = other.GetComponent<Ghost>().baseSpeed;
                 other.GetComponent<SpriteRenderer>().sprite = other.GetComponent<Ghost>().ghostSprite;
+                Physics2D.IgnoreCollision(GameManager.instance.pacman.GetComponent<Collider2D>(), other.GetComponent<Collider2D>(), false);
+                other.GetComponent<Ghost>().currentGhostBehavior = other.GetComponent<Ghost>().mainBehavior;
             }
-            else
+            else if(gameObject.tag == "Spawn")
             {                
                 other.GetComponent<Ghost>().ghostDirection = Vector2.up;
                 other.GetComponent<Ghost>().previousDirection = Vector2.down;
+                other.GetComponent<Ghost>().currentGhostBehavior = other.GetComponent<Ghost>().mainBehavior;
             }
-            other.GetComponent<Ghost>().currentGhostBehavior = other.GetComponent<Ghost>().mainBehavior;
-
         }
-       
-
     }
 }

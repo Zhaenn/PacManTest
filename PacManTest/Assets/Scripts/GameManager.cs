@@ -94,18 +94,6 @@ public class GameManager : MonoBehaviour
     {
         levelStarted = true;
     }
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ResetGame();
-        }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            PacmanDeath();
-        }
-    }
 
     public void AddPoints(int pointsToAdd)
     {
@@ -185,7 +173,7 @@ public class GameManager : MonoBehaviour
 
         if(currentLives > 0)
         {
-            ResetGame();
+            ResetLevel();
         }
         else
         {
@@ -198,44 +186,52 @@ public class GameManager : MonoBehaviour
     public void FinishedLevel()
     {
         levelStarted = false;
-        currentLevel++;        
-        pacman.transform.position = pacman.startPosition;
-        pacman.playerDirection = new Vector2(0f, 0f);
-      
-        Debug.Log(allDots.Length);
+        currentLevel++;
+        pacman.playerDirection = Vector2.right;
+     
         Destroy(transform.Find("FruitSpawnPoint").GetChild(0).gameObject);
         fruitSpawned = false;
 
+        ResetLevel();
 
-        //--------------------------------------------- Last dot doesn't reset properly, wait time solves the problem
-        Invoke("ResetDots", 2f);
-
-        Invoke("StartLevel", 3f);
+        Invoke("ResetDots", 1f);
     }
 
     public void ResetDots()
     {
         foreach (Dot d in allDots)
         {
-            d.gameObject.SetActive(true);
-            Debug.Log("dot reset");
+            d.gameObject.SetActive(true);         
             allDotsInLevel.Add(d);
         }
     }
-    public void ResetGame()
+    public void ResetLevel()
     {
-        //Reset player position and all ghosts
+        levelStarted = false;
+
         pacman.transform.position = pacman.startPosition;
-        
+
+
+        foreach (Ghost g in allGhosts)
+        {
+            g.ResetState();
+        }
+
+        Invoke("StartLevel", 3f);
     }
 
     public void GameOver()
     {
-        ResetGame();
+        ResetLevel();
         currentPoints = 0;
         foreach (Dot d in allDots)
         {
             d.gameObject.SetActive(true);
+        }
+
+        foreach (Ghost g in allGhosts)
+        {
+            g.ResetState();
         }
     }
 

@@ -109,7 +109,8 @@ public class PlayerMovement : MonoBehaviour
         {
             if (other.gameObject.GetComponent<Ghost>().vulnerable)
             {
-                other.gameObject.GetComponent<Collider2D>().enabled = false;
+                Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), other.gameObject.GetComponent<Collider2D>());
+                //other.gameObject.GetComponent<Collider2D>().enabled = false;
                 
                 other.gameObject.GetComponent<Ghost>().Invoke("GhostDeath", 0.1f);
             }

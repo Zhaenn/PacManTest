@@ -23,11 +23,5 @@ public class Energizer : Dot
 
             this.gameObject.SetActive(false);
         }
-        else
-        {
-            Debug.Log("not pacman");
-        }
-
-
     }
 }
