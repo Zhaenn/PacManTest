@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 startPosition;
     public int speed;
     private Rigidbody2D rigidBody;
-    public LayerMask walls;
+    public LayerMask walls; //The layer mask containing the wall tiles in the tilemap. Used to detect if the player can go in that direction or not.
 
     // Start is called before the first frame update
     void Start()
@@ -17,10 +17,11 @@ public class PlayerMovement : MonoBehaviour
         startPosition = transform.position;
     }
    
-    // Update is called once per frame
+    // Fixed Update contains all the movement logic for the player. When using the axis in a particular direction, it checks if there's a wall in that direction.
+    // If not, the player moves in that direction using a rigidbody and the MovePosition function. Also rotates the player to face the right way
     void FixedUpdate()
     {
-        if (GameManager.instance.levelStarted)
+        if (GameManager.instance.levelStarted) //Player can't move if the level hasn't started yet.
         {
             if (Input.GetAxis("Horizontal") > 0f)
             {
@@ -82,35 +83,26 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    //Used to check if there's a walls in a given direction. Returns if there's a hit or not
     public bool IsThereAWall(Vector2 direction)
     {
-        if (Physics2D.BoxCast(transform.position, new Vector2(0.75f, 0.75f), 0f, direction, 1.5f, walls))
-        {
-            Debug.DrawRay(transform.position, direction * 1.5f, Color.green);
-            return true;
-        }
-        else
-        {
-            Debug.DrawRay(transform.position, direction * 1.5f, Color.red);
-            return false;
-        }
-  
-        
+        return Physics2D.BoxCast(transform.position, new Vector2(0.75f, 0.75f), 0f, direction, 1.5f, walls);
     }
 
+    //Move Function called at the end of FixedUpdate. Simply adds the current position to a movement vector consisting of direction, speed and deltatime.
     public void Move(Vector2 movement)
     {
         rigidBody.MovePosition(rigidBody.position + movement);
     }
 
+    //Collision with the Ghosts. Check if they are vulnerable. If so, they die. If not, player dies.
     public void OnCollisionEnter2D(Collision2D other)
     {
         if(other.gameObject.layer == LayerMask.NameToLayer("Ghost"))
         {
             if (other.gameObject.GetComponent<Ghost>().vulnerable)
             {
-                Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), other.gameObject.GetComponent<Collider2D>());
-                //other.gameObject.GetComponent<Collider2D>().enabled = false;
+                Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), other.gameObject.GetComponent<Collider2D>());                
                 
                 other.gameObject.GetComponent<Ghost>().Invoke("GhostDeath", 0.1f);
             }

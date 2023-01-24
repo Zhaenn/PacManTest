@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Energizer : Dot
 {
+    //The Energizer is a dot variant which also triggers the vulnerable state on all ghosts during a given time before returning them to default state. 
+    //This can be changed at anytime (increasing or decreasing according to the current level, for example).
     public float vulnerableTime;
     public override void OnTriggerEnter2D(Collider2D other)
     {
